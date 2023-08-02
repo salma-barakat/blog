@@ -1,7 +1,7 @@
 <?php
 if(!empty($_POST["email"]) && !empty($_POST["password"])){
     if(strlen($_POST["password"])>=8){
-       header("location:profile.php");
+       header("location:home.php");
     }
     else{
         // password should be at least 8 characters long

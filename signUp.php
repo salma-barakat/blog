@@ -32,7 +32,7 @@
     
  
      <div class="form-floating">
-       <input type="text" class="form-control" id="floatingInput" name="Lname" placeholder="First Name">
+       <input type="text" class="form-control" id="floatingInput" name="Fname" placeholder="First Name">
        <label for="floatingInput">First Name</label>
      </div>
      <div class="form-floating">
