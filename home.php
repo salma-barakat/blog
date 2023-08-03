@@ -1,5 +1,8 @@
 <?php
 require_once('headerStyles.php');
+if(empty($_SESSION("logged"))){
+  header("location:unauthenticated.php");
+}
 ?>
 <style>
       .bd-placeholder-img {
@@ -84,7 +87,7 @@ require_once('headerStyles.php');
       <a href="#" class="navbar-brand d-flex align-items-center">
         <strong><h2>The Blog</h2></strong>
         <a href="profile.php" class="text-white"><h3>View Profile</h3></a>
-        <a href="index.php" class="text-white"><h4>Log Out</h4></a>
+        <a href="manageLogOut.php" class="text-white"><h4>Log Out</h4></a>
       </a>
     </div>
   </div>

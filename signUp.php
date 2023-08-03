@@ -22,14 +22,18 @@
      if(!empty($_GET["msg"]) && $_GET["msg"] == "shortPass"){
      ?>
        <div class="alert alert-warning" role="alert">
-         <strong>Password should be at least 8 characters long</strong>
+         <strong>Password should be at least 6 characters long</strong>
        </div>
-       
- 
      <?php
      }
-     ?>
-    
+     if(!empty($_GET["msg"]) && $_GET["msg"] == "unmatched"){
+      ?>
+        <div class="alert alert-danger" role="alert">
+          <strong>Passwords must match</strong>
+        </div>
+      <?php
+      }
+      ?>    
  
      <div class="form-floating">
        <input type="text" class="form-control" id="floatingInput" name="Fname" placeholder="First Name">

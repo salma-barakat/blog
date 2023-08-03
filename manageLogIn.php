@@ -1,4 +1,7 @@
 <?php
+session_start();
+require_once('User.php');
+$user = new User();
 if(!empty($_POST["email"]) && !empty($_POST["password"])){
        header("location:home.php");
     $email = htmlspecialchars(trim($_POST["email"]));
