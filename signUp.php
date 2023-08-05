@@ -33,6 +33,13 @@
         </div>
       <?php
       }
+      if(!empty($_GET["msg"]) && $_GET["msg"] == "emailExists"){
+        ?>
+          <div class="alert alert-danger" role="alert">
+            <strong>This email already exists</strong>
+          </div>
+        <?php
+        }
       ?>    
  
      <div class="form-floating">
@@ -56,6 +63,8 @@
        <label for="floatingPassword">Confirm Password</label>
      </div>
      <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
+     <p>Already have an account? <a href="userLogIn.php"> Sign In</a></p>
+
    </form>
  </main>
 

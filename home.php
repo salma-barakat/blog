@@ -1,8 +1,9 @@
 <?php
+session_start();
 require_once('headerStyles.php');
-if(empty($_SESSION("logged"))){
-  header("location:unauthenticated.php");
-}
+// if(empty($_SESSION["logged"])){
+//   header("location:unauthenticated.php");
+// }
 ?>
 <style>
       .bd-placeholder-img {

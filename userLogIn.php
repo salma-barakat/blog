@@ -16,10 +16,24 @@
       <div class="alert alert-danger" role="alert">
         <strong>Empty Field</strong>
       </div>
-
+    <?php
+    }
+    if(!empty($_GET["msg"]) && $_GET["msg"] == "NoEmailExist"){
+    ?>
+      <div class="alert alert-danger" role="alert">
+        <strong>This email doesn't exist </strong>
+      </div>
+    <?php
+    }
+    if(!empty($_GET["msg"]) && $_GET["msg"] == "wrongPass"){
+    ?>
+      <div class="alert alert-danger" role="alert">
+        <strong>Wrong Password </strong>
+      </div>
     <?php
     }
     ?>
+
     <div class="form-floating">
       <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
       <label for="floatingInput">Email address</label>
