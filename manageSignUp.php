@@ -8,9 +8,8 @@ if(!empty($_POST["email"])
 ){
     if(strlen($_POST["password"])>=6){
         if($_POST["password"] == $_POST["Cpassword"]){
-            function signUp(){
+            function signUp($email, $Fname, $Lname, $password){
                 require_once('configurations.php');
-                $email = htmlspecialchars(trim($_POST["email"]));
                 $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
                 $qryEmailExists = "SELECT * FROM users WHERE email = '$email'";
                 $resEmailExists = mysqli_query($connection, $qryEmailExists);
@@ -18,17 +17,16 @@ if(!empty($_POST["email"])
                     header("location:signUp.php?msg=emailExists");
                 }
                 else{
-                    $Fname = htmlspecialchars($_POST["Fname"]);
-                    $Lname = htmlspecialchars($_POST["Lname"]);
-                    var_dump($_POST["password"]);
-                    $password = md5($_POST["password"]);  
-                    var_dump($password);  
-                    $query = "INSERT INTO users (Fname, Lname, email, password, registeredTime) VALUES('$Fname', '$Lname', '$email', $password, now())";
+                    $query = "INSERT INTO users (Fname, Lname, email, password, registeredTime) VALUES('$Fname', '$Lname', '$email', '$password', now())";
                     $result = mysqli_query($connection, $query); 
-                    // header("location:home.php");
+                    header("location:home.php");
                 }
             }
-            signUp();
+            $email = htmlspecialchars(trim($_POST["email"]));
+            $Fname = htmlspecialchars($_POST["Fname"]);
+            $Lname = htmlspecialchars($_POST["Lname"]);
+            $password = $_POST["password"];  
+            signUp($email, $Fname, $Lname, md5($password));
         }
         else{
             header("location:signUp.php?msg=unmatched");
@@ -38,8 +36,6 @@ if(!empty($_POST["email"])
         // password should be at least 8 characters long
         header("location:signUp.php?msg=shortPass");
     }
-    // $email = htmlspecialchars(trim($_POST["email"]));
-    // $password = md5($_POST["password"]);
 }
 else{
     // empty field
