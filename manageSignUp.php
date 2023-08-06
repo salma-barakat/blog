@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once('User.php');
 if(!empty($_POST["email"]) 
 && !empty($_POST["password"])
 && !empty($_POST["Cpassword"])
@@ -8,25 +8,11 @@ if(!empty($_POST["email"])
 ){
     if(strlen($_POST["password"])>=6){
         if($_POST["password"] == $_POST["Cpassword"]){
-            function signUp($email, $Fname, $Lname, $password){
-                require_once('configurations.php');
-                $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
-                $qryEmailExists = "SELECT * FROM users WHERE email = '$email'";
-                $resEmailExists = mysqli_query($connection, $qryEmailExists);
-                if(mysqli_num_rows($resEmailExists)>0){
-                    header("location:signUp.php?msg=emailExists");
-                }
-                else{
-                    $query = "INSERT INTO users (Fname, Lname, email, password, registeredTime) VALUES('$Fname', '$Lname', '$email', '$password', now())";
-                    $result = mysqli_query($connection, $query); 
-                    header("location:home.php");
-                }
-            }
             $email = htmlspecialchars(trim($_POST["email"]));
             $Fname = htmlspecialchars($_POST["Fname"]);
             $Lname = htmlspecialchars($_POST["Lname"]);
             $password = $_POST["password"];  
-            signUp($email, $Fname, $Lname, md5($password));
+            User::signUp($email, $Fname, $Lname, md5($password));
         }
         else{
             header("location:signUp.php?msg=unmatched");
