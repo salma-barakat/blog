@@ -8,11 +8,13 @@ class User{
     protected $password;
     public $registeredAt;
 
-    public function __construct($Fname, $Lname, $email, $password){
+    public function __construct($id, $Fname, $Lname, $email, $password, $registeredAt){
+        $this->id = $id;
         $this->Fname = $Fname;
         $this->Lname = $Lname;
         $this->email = $email;
         $this->password = $password;
+        $this->registeredAt = $registeredAt;
     }
 
     function getPass(){
@@ -33,7 +35,7 @@ class User{
         if(mysqli_num_rows($resEmailExists)>0){
             $data = mysqli_fetch_assoc($resEmailExists);
             if($data["password"] == $password){
-                $user = new User($data["Fname"], $data["Lname"], $data["email"], $data["password"]);
+                $user = new User($data["id"], $data["Fname"], $data["Lname"], $data["email"], $data["password"], $data["registeredAt"]);
                 $_SESSION["logged"] = serialize($user);
                 header("location:home.php");
             }
@@ -58,19 +60,17 @@ class User{
         else{
             $query = "INSERT INTO users (Fname, Lname, email, password, registeredTime) VALUES('$Fname', '$Lname', '$email', '$password', now())";
             $result = mysqli_query($connection, $query); 
-            $user = new User($Fname, $Lname, $email, $password);
-            $_SESSION["logged"] = serialize($user);
-            header("location:home.php");
+            header("location:userLogIn.php?msg=registered");
         }
         mysqli_close($connection);
     }
 
-    function addPost($title, $content, $image=null, $user_id){
+    function addArticle($title, $content, $image=null, $user_id){
         require_once('configurations.php');
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
         $query = "INSERT INTO articles (title, content, image, postedAt, updatedAt, user_id) VALUES('$title', '$content', '$image', now(), now(), $user_id)";
         $result = mysqli_query($connection, $query); 
-        header("location:home.php");
+        header("location:home.php?msg=added");
         mysqli_close($connection);
     }
 
@@ -84,7 +84,7 @@ class User{
 
     function showPost($userId){
         require_once('configurations.php');
-        $qryEmailExists = "SELECT * FROM posts WHERE user_id = $userId ORDER BY postedAt DESC LIMIT 9";
+        $qryEmailExists = "SELECT * FROM articles WHERE user_id = $userId ORDER BY postedAt DESC LIMIT 9";
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
         $res = mysqli_query($connection, $qryEmailExists);
         mysqli_close($connection);

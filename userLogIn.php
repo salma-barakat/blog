@@ -32,6 +32,13 @@
       </div>
     <?php
     }
+    if(!empty($_GET["msg"]) && $_GET["msg"] == "registered"){
+    ?>
+      <div class="alert alert-success" role="alert">
+        <strong>Registered Successfully </strong>
+      </div>
+    <?php
+    }
     ?>
 
     <div class="form-floating">
