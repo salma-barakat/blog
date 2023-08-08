@@ -1,9 +1,13 @@
 <?php
 session_start();
 require_once('headerStyles.php');
+require_once('User.php');
 if(empty($_SESSION["logged"])){
   header("location:unauthenticated.php");
 }
+$user = unserialize($_SESSION["logged"]);
+$posts = $user->showAllPosts();
+// var_dump($posts);
 ?>
 <style>
       .bd-placeholder-img {
@@ -125,9 +129,10 @@ if(empty($_SESSION["logged"])){
           </div>
           <div class="mb-3">
             <label for="">Insert image if you want</label>
-            <input type="file" class="form-control" name="img" id="" aria-describedby="fileHelpId">
+            <input type="file" class="form-control" name="image" id="" placeholder="" aria-describedby="fileHelpId">
           </div>
-          <button class="btn btn-primary py-2" type="submit">Add Article</button>
+          <!-- <button class="btn btn-primary py-2" type="submit">Add Article</button> -->
+          <input type="submit" class="btn btn-primary" value="submit">
         </form>
       </div>
     </div>
@@ -135,23 +140,30 @@ if(empty($_SESSION["logged"])){
 
   <div class="album py-5 bg-body-tertiary">
     <div class="container">
-
       <div class="row">
-        <div class="col-8 offset-2">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+        <?php
+          foreach ($posts as $article) {
+            // var_dump($article);
+          ?>
+            <div class="col-8 offset-2">
+              <div class="card shadow-sm">
+                <img src="<?= $article[3]?>" alt="no">
+                <div class="card-body">
+                  <p class="card-text"><?= $article[2]?></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-body-secondary">9 mins</small>
+                  </div>
                 </div>
-                <small class="text-body-secondary">9 mins</small>
               </div>
             </div>
-          </div>
-        </div>
+          <?php
+          }
+        ?>
+
       </div>
     </div>
   </div>

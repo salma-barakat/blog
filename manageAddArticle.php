@@ -7,12 +7,13 @@ if(!empty($_POST["title"]) && !empty($_POST["articleContent"])){
     var_dump($user);
     $title = htmlspecialchars($_POST["title"]);
     $content = htmlspecialchars(trim($_POST["articleContent"]));
-    if(!empty($_FILES["img"]["name"])){
-        $file_extension = pathinfo($_FILES["img"]["name"], PATHINFO_EXTENSION);
-        $file_name = "imgs/posts/".date("YmdHis").".".$file_extension; //set img with date(seconds) as name
-        move_uploaded_file($_FILES["img"]["tmp_name"], $file_name);
+    $file_extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+    $file_name = "images/posts/".date("YmdHis").".".$file_extension; //set image with date(seconds) as name
+    move_uploaded_file($_FILES["image"]["tmp_name"], $file_name);
+    if ($_FILES["image"]["error"] > 0) {
+        echo "File upload error: " . $_FILES["image"]["error"];
+        exit;
     }
-    var_dump($user->id);
     $user->addArticle($title, $content, $file_name, $user->id);
 }
 else{

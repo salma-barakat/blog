@@ -65,13 +65,14 @@ class User{
         mysqli_close($connection);
     }
 
-    function addArticle($title, $content, $image=null, $user_id){
+    function addArticle($title, $content, $image, $user_id){
         require_once('configurations.php');
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
         $query = "INSERT INTO articles (title, content, image, postedAt, updatedAt, user_id) VALUES('$title', '$content', '$image', now(), now(), $user_id)";
         $result = mysqli_query($connection, $query); 
         header("location:home.php?msg=added");
         mysqli_close($connection);
+        return $result;
     }
 
     function updatePost(){
@@ -92,9 +93,11 @@ class User{
 
     function showAllPosts(){
         require_once('configurations.php');
-        $qryEmailExists = "SELECT * FROM posts ORDER BY postedAt DESC LIMIT 9";
+        $qry = "SELECT * FROM articles ORDER BY postedAt DESC LIMIT 9";
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
-        $res = mysqli_query($connection, $qryEmailExists);
+        $res = mysqli_query($connection, $qry);
+        $data = mysqli_fetch_all($res);
         mysqli_close($connection);
+        return $data;
     }
 }
