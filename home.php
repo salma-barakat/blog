@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('headerStyles.php');
+require_once('navBar.php');
 require_once('User.php');
 if(empty($_SESSION["logged"])){
   header("location:unauthenticated.php");
@@ -86,16 +87,6 @@ $posts = $user->showAllPosts();
     
   </head>
   <body>   
-<header data-bs-theme="dark">
-  <div class="navbar navbar-dark bg-dark shadow-sm">
-    <div class="container">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <strong><h2>The Blog</h2></strong>
-        <a href="profile.php" class="text-white"><h3>View Profile</h3></a>
-        <a href="manageLogOut.php" class="text-white"><h4>Log Out</h4></a>
-      </a>
-    </div>
-  </div>
 </header>
 
 <main>
@@ -104,7 +95,7 @@ $posts = $user->showAllPosts();
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Want to add a new article?</h1>
-        <form action="manageAddArticle.php" method="POST">
+        <form action="manageAddArticle.php" method="POST" enctype="multipart/form-data">
         <?php
           if(!empty($_GET["msg"]) && $_GET["msg"] == "emptyField"){
         ?>
@@ -131,8 +122,7 @@ $posts = $user->showAllPosts();
             <label for="">Insert image if you want</label>
             <input type="file" class="form-control" name="image" id="" placeholder="" aria-describedby="fileHelpId">
           </div>
-          <!-- <button class="btn btn-primary py-2" type="submit">Add Article</button> -->
-          <input type="submit" class="btn btn-primary" value="submit">
+          <button class="btn btn-primary py-2" type="submit">Add Article</button>
         </form>
       </div>
     </div>
@@ -143,23 +133,51 @@ $posts = $user->showAllPosts();
       <div class="row">
         <?php
           foreach ($posts as $article) {
-            // var_dump($article);
-          ?>
+            ?>
+            <p>
             <div class="col-8 offset-2">
               <div class="card shadow-sm">
-                <img src="<?= $article[3]?>" alt="no">
+                <?php
+                  if($article[3] != null){
+                ?>
+                  <img src="<?= $article[3]?>" alt="No Image">
+                  <?php
+                  }
+                  ?>
                 <div class="card-body">
-                  <p class="card-text"><?= $article[2]?></p>
+                  <p class="card-title">
+                    <b>
+                      <h4><?= $article[1]?></h4>
+                    </b>
+                    <?php 
+                    $userPosted = $user->getUserPosted($article[0]);?>
+                    <?= "Posted By: ", $userPosted["Fname"], " ", $userPosted["Lname"]?>
+                  </p>
+                  <?php
+                    $words = explode(" ", $article[2]); // Split the content into an array of words
+                    $firstFewWords = implode(" ", array_slice($words, 0, 50));
+                    if(sizeof($words) > 50){
+                      $firstFewWords = $firstFewWords. "...";
+                    ?>
+                      <p class="card-text"><?= $firstFewWords?> <a href="viewPost.php?id=<?= $article[0] ?>">see more</a></p>
+                    <?php
+                    }
+                    else{
+                    ?>
+                      <p class="card-text"><?= $firstFewWords?></p>
+                    <?php
+                      }
+                    ?>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <a href="viewPost.php?id=<?= $article[0] ?> " class="btn btn-outline-secondary">View</a>
                     </div>
-                    <small class="text-body-secondary">9 mins</small>
+                    <small class="text-body-secondary"><?= $article[5]?></small>
                   </div>
                 </div>
               </div>
             </div>
+            </p>
           <?php
           }
         ?>
