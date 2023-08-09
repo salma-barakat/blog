@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(empty($_SESSION["logged"])){
+    header("location:unauthenticated.php");
+}
 require_once('navbar.php');
 require_once('User.php');
 $postID = $_GET["id"];
