@@ -7,8 +7,7 @@ if(empty($_SESSION["logged"])){
   header("location:unauthenticated.php");
 }
 $user = unserialize($_SESSION["logged"]);
-$posts = $user->showAllPosts();
-// var_dump($posts);
+$posts = $user->showAllArticles();
 ?>
 <style>
       .bd-placeholder-img {
@@ -92,6 +91,15 @@ $posts = $user->showAllPosts();
 <main>
 
   <section class="py-5 text-center container">
+    <?php
+      if(!empty($_GET["msg"]) && $_GET["msg"] == "deleted"){
+    ?>
+    <div class="alert alert-success" role="alert">
+      <strong>Article deleted successfully</strong>
+    </div>
+    <?php
+      }
+    ?>
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Want to add a new article?</h1>
@@ -159,7 +167,7 @@ $posts = $user->showAllPosts();
                     if(sizeof($words) > 50){
                       $firstFewWords = $firstFewWords. "...";
                     ?>
-                      <p class="card-text"><?= $firstFewWords?> <a href="viewPost.php?id=<?= $article[0] ?>">see more</a></p>
+                      <p class="card-text"><?= $firstFewWords?> <a href="viewArticle.php?id=<?= $article[0] ?>">see more</a></p>
                     <?php
                     }
                     else{
@@ -170,8 +178,16 @@ $posts = $user->showAllPosts();
                     ?>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="viewPost.php?id=<?= $article[0] ?> " class="btn btn-outline-secondary">View</a>
-                    </div>
+                      <a href="viewArticle.php?id=<?= $article[0]?> " class="btn btn-outline-secondary">View Article</a>
+                    <?php
+                        if($user->id == $article[6]){
+                    ?>
+                        <a href="editArticle.php?id=<?= $article[0]?> " class="btn btn-outline-primary">Edit Article</a>
+                        <a href="manageDeleteArticle.php?id=<?= $article[0]?> " class="btn btn-outline-danger">Delete Article</a>
+                        <?php
+                        }
+                        ?>
+                      </div>
                     <small class="text-body-secondary"><?= $article[5]?></small>
                   </div>
                 </div>

@@ -76,12 +76,31 @@ class User{
         return $result;
     }
 
-    function updatePost(){
-        
+    function updateTitle($postID, $updatedTitle){
+        require_once('configurations.php');
+        $qry = "UPDATE articles SET title = '$updatedTitle' WHERE id = $postID";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        mysqli_close($connection);
+        header("location:editArticle.php?id=$postID");
     }
 
-    function deletePost(){
+    function updateContent($postID, $updatedContent){
+        require_once('configurations.php');
+        $qry = "UPDATE articles SET content = '$updatedContent' WHERE id = $postID";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        mysqli_close($connection);
+        header("location:editArticle.php?id=$postID");
+    }
 
+    function deleteArticle($postID){
+        require_once('configurations.php');
+        $qry = "DELETE FROM articles WHERE id = $postID";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        mysqli_close($connection);
+        header("location:home.php?msg=deleted");
     }
 
     function showPostsByUser($userId){
@@ -92,7 +111,16 @@ class User{
         mysqli_close($connection);
     }
 
-    function showAllPosts(){
+    function showArticle($postID){
+        require_once('configurations.php');
+        $qry = "SELECT * FROM articles WHERE id = $postID";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        $article = mysqli_fetch_assoc($res);
+        mysqli_close($connection);
+        return $article;
+    }
+    function showAllArticles(){
         require_once('configurations.php');
         $qry = "SELECT * FROM articles ORDER BY postedAt DESC LIMIT 9";
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
