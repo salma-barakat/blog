@@ -20,10 +20,17 @@ class User{
         return $this->password;
     }
 
-    function changePass($oldPass, $newPass){
+    function changePass($id, $oldPass, $newPass){
         if($oldPass == $this->password){
             $this->password = $newPass;
+            require_once('configurations.php');
+            $qry = "UPDATE users SET password = '$newPass' WHERE id = $id";
+            $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+            $res = mysqli_query($connection, $qry);
+            mysqli_close($connection);
+            return true;
         }
+        return false;
     }
 
     static function logIn($email, $password){
@@ -36,8 +43,6 @@ class User{
             $data = mysqli_fetch_assoc($resEmailExists);
             if($data["password"] == $password){
                 $user = new User($data["id"], $data["Fname"], $data["Lname"], $data["email"], $data["password"], $data["registeredAt"]);
-                // $_SESSION["logged"] = serialize($user);
-                // header("location:home.php");
             }
             else{
                 header("location:userLogIn.php?msg=wrongPass");
@@ -103,12 +108,14 @@ class User{
         header("location:home.php?msg=deleted");
     }
 
-    function showPostsByUser($userId){
+    function showArticlesByUser($userId){
         require_once('configurations.php');
         $qryEmailExists = "SELECT * FROM articles WHERE user_id = $userId ORDER BY postedAt DESC LIMIT 9";
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
         $res = mysqli_query($connection, $qryEmailExists);
+        $data = mysqli_fetch_all($res);
         mysqli_close($connection);
+        return $data;
     }
 
     function showArticle($postID){

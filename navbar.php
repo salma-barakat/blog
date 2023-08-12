@@ -1,9 +1,5 @@
 <!DOCTYPE html>
 <?php
-session_start();
-if(empty($_SESSION["logged"])){
-  header("location:unauthenticated.php");
-}
 require_once('headerStyles.php');
 ?>
 <html lang="en">
