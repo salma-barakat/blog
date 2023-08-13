@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(empty($_SESSION["logged"])){
+if (empty($_SESSION["logged"])) {
     header("location:unauthenticated.php");
 }
 require_once('navbar.php');
@@ -12,38 +12,48 @@ $article = $user->showArticle($postID);
 <p>
 <div class="col-8 offset-2">
     <div class="card shadow-sm">
-    <?php
-        if($article["image"] != null){
-    ?>
-        <img src="<?= $article["image"]?>" alt="No Image">
+        <?php
+        if ($article["image"] != null) {
+        ?>
+            <img src="<?= $article["image"] ?>" alt="No Image">
         <?php
         }
         ?>
-    <div class="card-body">
-        <p class="card-title">
-        <b>
-            <h4><?= $article["title"]?></h4>
-        </b>
-        <?php 
-        $userPosted = $user->getUserPosted($article["id"]);?>
-        <?= "Posted By: ", $userPosted["Fname"], " ", $userPosted["Lname"]?>
-        </p>
-        <p class="card-text"><?=  $article["content"]?></p>
-        <div class="d-flex justify-content-between align-items-center">
-            <?php
-                if($user->id == $article["user_id"]){
-            ?>
-            <div class="btn-group">
-                <a href="home.php" class="btn btn-outline-success">Back to home</a>
-                <a href="editArticle.php?id=<?= $article["id"]?> " class="btn btn-outline-primary">Edit Article</a>
-                <a href="manageDeleteArticle.php?id=<?= $article["id"]?> " class="btn btn-outline-danger">Delete Article</a>
-            </div>
-            <?php
+        <div class="card-body">
+            <p class="card-title">
+                <b>
+                    <h4><?= $article["title"] ?></h4>
+                </b>
+                <?php
+                $userPosted = $user->getUserPosted($article["id"]); ?>
+                <?= "Posted By: ", $userPosted["Fname"], " ", $userPosted["Lname"] ?>
+            </p>
+            <p class="card-text"><?= $article["content"] ?></p>
+            <div class="d-flex justify-content-between align-items-center">
+                <?php
+                if ($user->id == $article["user_id"]) {
+                ?>
+                    <div class="btn-group">
+                        <a href="home.php" class="btn btn-outline-success">Back to home</a>
+                        <a href="editArticle.php?id=<?= $article["id"] ?> " class="btn btn-outline-primary">Edit Article</a>
+                        <a href="manageDeleteArticle.php?id=<?= $article["id"] ?> " class="btn btn-outline-danger">Delete Article</a>
+                    </div>
+                <?php
                 }
+                ?>
+            </div>
+            <div class="text-end">
+            <small class="text-body-secondary"> Posted at: <?= $article["postedAt"] ?></small>
+            <?php
+            if ($article["postedAt"] != $article["updatedAt"]) {
             ?>
-            <small class="text-body-secondary"><?= $article["postedAt"]?></small>
+                <br>
+                <small class="text-body-secondary"> Updated at: <?= $article["updatedAt"] ?></small>
+            <?php
+            }
+            ?>
         </div>
-</div>
     </div>
+</div>
 </div>
 </p>

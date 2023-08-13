@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(empty($_SESSION["logged"])){
+if (empty($_SESSION["logged"])) {
     header("location:unauthenticated.php");
 }
 require_once('navbar.php');
@@ -23,7 +23,7 @@ $article = $user->showArticle($postID);
             <p class="card-title">
                 <b>
                     <h4>
-                        <div id="editableContent" contenteditable="true">
+                        <div id="editableTitle" contenteditable="true">
                             <?= $article["title"] ?>
                         </div>
                         <button class="btn btn-outline-primary" onclick="saveTitle()">Save Article Title</button>
@@ -31,46 +31,56 @@ $article = $user->showArticle($postID);
                 </b>
                 <script>
                     function saveTitle() {
-                        var editedContent = document.getElementById("editableContent").innerHTML;
+                        var editedContent = document.getElementById("editableTitle").innerHTML;
                         // console.log(editedContent); //Logging the edited content to the browser console
                         // Redirect the user to manageEditArticle.php with the editedContent as a query parameter
-                        window.location.href = "manageEditArticle.php?id=<?=$article["id"]?>&title=" + editedContent;
+                        window.location.href = "manageEditArticle.php?id=<?= $article["id"] ?>&title=" + editedContent;
                     }
                 </script>
-            <?php
-            $userPosted = $user->getUserPosted($article["id"]); ?>
-            <?= "Posted By: ", $userPosted["Fname"], " ", $userPosted["Lname"] ?>
-        </p>
+                <?php
+                $userPosted = $user->getUserPosted($article["id"]); ?>
+                <?= "Posted By: ", $userPosted["Fname"], " ", $userPosted["Lname"] ?>
+            </p>
 
-        <p class="card-text">
+            <p class="card-text">
             <div id="editableContent" contenteditable="true">
                 <?= $article["content"] ?>
             </div>
             <button class="btn btn-outline-primary" onclick="saveContent()">Save Article Content</button>
             <script>
-                function saveTitle() {
+                function saveContent() {
                     var editedContent = document.getElementById("editableContent").innerHTML;
-                    // console.log(editedContent); //Logging the edited content to the browser console
+                    console.log(editedContent); //Logging the edited content to the browser console
                     // Redirect the user to manageEditArticle.php with the editedContent as a query parameter
-                    window.location.href = "manageEditArticle.php?id=<?=$article["id"]?>&content=" + editedContent;
+                    window.location.href = "manageEditArticle.php?id=<?= $article["id"] ?>&content=" + editedContent;
                 }
             </script>
-    </p>
-        <div class="d-flex justify-content-between align-items-center">
-            <?php
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+                <?php
                 if ($user->id == $article["user_id"]) {
-                    ?>
+                ?>
                     <div class="btn-group">
                         <a href="home.php" class="btn btn-outline-success">Back to home</a>
                         <a href="manageDeleteArticle.php?id=<?= $article["id"] ?> " class="btn btn-outline-danger">Delete Article</a>
                     </div>
-                    <?php
+                <?php
                 }
                 ?>
-                <small class="text-body-secondary"><?= $article["postedAt"] ?></small>
+            </div>
+            <div class="text-end">
+                <small class="text-body-secondary"> Posted at: <?= $article["postedAt"] ?></small>
+                <?php
+                if ($article["postedAt"] != $article["updatedAt"]) {
+                ?>
+                    <br>
+                    <small class="text-body-secondary"> Updated at: <?= $article["updatedAt"] ?></small>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>
-    </div>
+</div>
 </div>
 </p>

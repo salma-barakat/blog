@@ -101,7 +101,8 @@ $posts = $user->showAllArticles();
                     ?>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="viewArticle.php?id=<?= $article[0]?> " class="btn btn-outline-secondary">View Article</a>
+                      <a href="viewArticle.php?id=<?= $article[0]?>" class="btn btn-outline-success">View Article</a>
+                      <a href="viewArticle.php?id=<?= $article[0]?>&userID=<?= $user->id?> " class="btn btn-outline-secondary">Comment</a>
                     <?php
                         if($user->id == $article[6]){
                     ?>
@@ -111,8 +112,18 @@ $posts = $user->showAllArticles();
                         }
                         ?>
                       </div>
-                    <small class="text-body-secondary"><?= $article[5]?></small>
-                  </div>
+                    </div>
+                    <div class="text-end">
+                    <small class="text-body-secondary"> Posted at: <?= $article[4]?></small>
+                    <?php
+                      if($article[4] != $article[5]){                        
+                        ?>
+                        <br>
+                          <small class="text-body-secondary"> Updated at: <?= $article[5]?></small>
+                    <?php
+                      }
+                    ?>
+                    </div>
                 </div>
               </div>
             </div>

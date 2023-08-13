@@ -82,8 +82,9 @@ class User{
     }
 
     function updateTitle($postID, $updatedTitle){
+        var_dump($postID);
         require_once('configurations.php');
-        $qry = "UPDATE articles SET title = '$updatedTitle' WHERE id = $postID";
+        $qry = "UPDATE articles SET title = '$updatedTitle', updatedAt = now() WHERE id = $postID";
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
         $res = mysqli_query($connection, $qry);
         mysqli_close($connection);
@@ -91,12 +92,15 @@ class User{
     }
 
     function updateContent($postID, $updatedContent){
+        var_dump($postID);
         require_once('configurations.php');
-        $qry = "UPDATE articles SET content = '$updatedContent' WHERE id = $postID";
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $updatedContent = htmlspecialchars($updatedContent);
+        $qry = "UPDATE articles SET content = '$updatedContent', updatedAt = now() WHERE id = $postID";
         $res = mysqli_query($connection, $qry);
         mysqli_close($connection);
         header("location:editArticle.php?id=$postID");
+
     }
 
     function deleteArticle($postID){
