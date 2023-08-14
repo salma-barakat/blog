@@ -69,7 +69,8 @@ $articles = $user->showArticlesByUser($user->id);
                 ?>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <a href="viewArticle.php?id=<?= $article[0] ?> " class="btn btn-outline-secondary">View Article</a>
+                    <a href="viewArticle.php?id=<?= $article[0] ?> " class="btn btn-outline-success">View Article</a>
+                    <a href="viewArticle.php?id=<?= $article[0]?>&userID=<?= $user->id?> " class="btn btn-outline-secondary">Comment</a>
                     <?php
                     if ($user->id == $article[6]) {
                     ?>

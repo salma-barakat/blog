@@ -143,12 +143,50 @@ class User{
 
     function getUserPosted($articleId){
         require_once('configurations.php');
-        $qry = "SELECT Fname, Lname FROM users JOIN articles 
+        $qry = "SELECT articles.id, Fname, Lname FROM users JOIN articles 
         WHERE users.id = articles.user_id AND articles.id = $articleId";
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
         $res = mysqli_query($connection, $qry);
         $data = mysqli_fetch_assoc($res);
         mysqli_close($connection);
         return $data;
+    }
+
+    function addComment($articleId, $content,$userCommented_id){
+        require_once('configurations.php');
+        $qry = "INSERT INTO comments (article_id, content, user_commented_id, commented_at) VALUES($articleId, '$content', $userCommented_id, now())";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        mysqli_close($connection);
+        header("location:viewArticle.php?id=$articleId");
+    }
+
+    function viewComments($postID){
+        require_once('configurations.php');
+        $qry = "SELECT * FROM comments WHERE article_id = $postID ORDER BY commented_at DESC LIMIT 9";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        $data = mysqli_fetch_all($res);
+        mysqli_close($connection);
+        return $data;
+    }
+
+    function getUserCommented($user_id){
+        require_once('configurations.php');
+        $qry = "SELECT Fname, Lname FROM users WHERE id = $user_id";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        $data = mysqli_fetch_assoc($res);
+        mysqli_close($connection);
+        return $data;
+    }
+
+    function deleteComment($commentID, $postID){
+        require_once('configurations.php');
+        $qry = "DELETE FROM comments WHERE id = $commentID";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        mysqli_close($connection);
+        header("location:viewArticle.php?id=$postID");
     }
 }
