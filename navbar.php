@@ -9,6 +9,13 @@ require_once('headerStyles.php');
       <a href="home.php" class="navbar-brand d-flex align-items-center">
         <strong><h2>The Blog</h2></strong>
         <a href="profile.php" class="text-white"><h3>View Profile</h3></a>
+        <?php
+        if(!empty($_SESSION["admin"])){
+          ?>
+          <a href="showUsers.php" class="text-white"><h3>Users</h3></a>
+          <?php
+        }
+        ?>
         <a href="manageLogOut.php" class="text-white"><h4>Log Out</h4></a>
       </a>
     </div>

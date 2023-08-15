@@ -12,10 +12,11 @@
 <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <title>The Blog</title>
+    <link rel="icon" type="image/x-icon" href="imgs/blogging.png">
     <style>
       body {
-        background-image: url('imgs/unsplash.jpg');
-        /* background-size: cover; */
+        background-image: url('imgs/writing.jpg');
+        background-size: cover;
         }
         
       .form-floating {

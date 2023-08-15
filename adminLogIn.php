@@ -7,8 +7,8 @@
   <body class="d-flex align-items-center py-4 bg-body-tertiary">
    
   <main class="form-signin w-100 m-auto">
-  <form action="adminHome.php" method="post">
-    <img class="mb-4" src="assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+  <form action="manageAdminLogIn.php" method="post">
+  <img class="mb-4" src="imgs\blogging.png" alt="" width="72" height="80">
     <h1 class="h3 mb-3 fw-normal">LogIn</h1>
     <?php
     if(!empty($_GET["msg"]) && $_GET["msg"] == "emptyField"){
@@ -16,7 +16,13 @@
       <div class="alert alert-danger" role="alert">
         <strong>Empty Field</strong>
       </div>
-
+    <?php
+    }
+    if(!empty($_GET["msg"]) && $_GET["msg"] == "NoEmailExist"){
+    ?>
+      <div class="alert alert-danger" role="alert">
+        <strong>This email doesn't exist </strong>
+      </div>
     <?php
     }
     ?>
