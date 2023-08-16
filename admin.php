@@ -36,7 +36,32 @@ class Admin extends User{
         return parent::showAllArticles();
     }
 
-    function deleteUser(){
-        
+    function showAllUsers(){
+        require_once('configurations.php');
+        $qry = "SELECT * FROM users ORDER BY registeredTime DESC";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        $data = mysqli_fetch_all($res);
+        mysqli_close($connection);
+        return $data;
+    }
+
+    function nArticles($userID){
+        require_once('configurations.php');
+        $qry = "SELECT COUNT(user_id) FROM articles WHERE user_id=$userID"; 
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        $data = mysqli_fetch_assoc($res);
+        mysqli_close($connection);
+        return $data;
+    }
+
+    function deleteUser($userID){
+        require_once('configurations.php');
+        $qry = "DELETE FROM users WHERE id = $userID";
+        $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
+        $res = mysqli_query($connection, $qry);
+        mysqli_close($connection);
+        header("location:showUsers.php?msgUser=deleted");
     }
 }
