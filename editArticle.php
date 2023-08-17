@@ -1,12 +1,18 @@
 <?php
 session_start();
-if (empty($_SESSION["logged"])) {
+if (empty($_SESSION["logged"]) && empty($_SESSION["admin"])) {
     header("location:unauthenticated.php");
 }
 require_once('navbar.php');
 require_once('User.php');
+require_once('Admin.php');
 $postID = $_GET["id"];
-$user = unserialize($_SESSION["logged"]);
+if(!empty($_SESSION["logged"])){
+    $user = unserialize($_SESSION["logged"]);
+}
+else{
+    $user = unserialize($_SESSION["admin"]);
+}
 $article = $user->showArticle($postID);
 ?>
 <p>

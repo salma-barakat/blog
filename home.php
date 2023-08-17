@@ -1,13 +1,22 @@
 <?php
 session_start();
-require_once('headerStyles.php');
+// require_once('headerStyles.php');
 require_once('navBar.php');
+?>
+<link rel="stylesheet" href="navigatingArticlesStyle.css">
+<?php
+// require_once('navigatingArticlesStyle.css');
 require_once('User.php');
-require_once('navigatingArticlesStyle.php');
-if(empty($_SESSION["logged"])){
+require_once('admin.php');
+if(empty($_SESSION["logged"]) && empty($_SESSION["admin"])){
   header("location:unauthenticated.php");
 }
-$user = unserialize($_SESSION["logged"]);
+if (!empty($_SESSION["logged"])) {
+  $user = unserialize($_SESSION["logged"]);
+} 
+else {
+  $user = unserialize($_SESSION["admin"]);
+}
 $posts = $user->showAllArticles();
 ?>    
 <body>   

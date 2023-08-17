@@ -6,6 +6,7 @@ class User{
     public $email;
     protected $password;
     public $registeredAt;
+    public $role;
 
     public function __construct($id, $Fname, $Lname, $email, $password, $registeredAt){
         $this->id = $id;
@@ -14,6 +15,7 @@ class User{
         $this->email = $email;
         $this->password = $password;
         $this->registeredAt = $registeredAt;
+        $this->role = 'user';
     }
 
     function getPass(){
@@ -36,7 +38,7 @@ class User{
     static function logIn($email, $password){
         require_once('configurations.php');
         $user = null;
-        $qryEmailExists = "SELECT * FROM users WHERE email = '$email'";
+        $qryEmailExists = "SELECT * FROM users WHERE email = '$email' AND role='user'";
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
         $resEmailExists = mysqli_query($connection, $qryEmailExists);
         if(mysqli_num_rows($resEmailExists)>0){
@@ -64,7 +66,7 @@ class User{
             header("location:signUp.php?msg=emailExists");
         }
         else{
-            $query = "INSERT INTO users (Fname, Lname, email, password, registeredTime) VALUES('$Fname', '$Lname', '$email', '$password', now())";
+            $query = "INSERT INTO users (Fname, Lname, email, password, registeredTime, role) VALUES('$Fname', '$Lname', '$email', '$password', now(), 'user')";
             $result = mysqli_query($connection, $query); 
             header("location:userLogIn.php?msg=registered");
         }
@@ -76,7 +78,6 @@ class User{
         $connection = mysqli_connect(DB_USER_HOST, DB_USER_NAME, DB_USER_PASSWORD, DB_NAME);
         $query = "INSERT INTO articles (title, content, image, postedAt, updatedAt, user_id) VALUES('$title', '$content', '$image', now(), now(), $user_id)";
         $result = mysqli_query($connection, $query); 
-        header("location:home.php?msg=added");
         mysqli_close($connection);
         return $result;
     }

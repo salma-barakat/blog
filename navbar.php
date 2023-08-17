@@ -6,17 +6,7 @@ require_once('headerStyles.php');
 <header data-bs-theme="dark">
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container">
-      <?php
-      if (!empty($_SESSION["admin"])) {
-      ?>
-        <a href="adminHome.php" class="navbar-brand d-flex align-items-center">
-        <?php
-      } else {
-        ?>
           <a href="home.php" class="navbar-brand d-flex align-items-center">
-          <?php
-        }
-          ?>
           <strong>
             <h2>The Blog</h2>
           </strong>
@@ -26,9 +16,6 @@ require_once('headerStyles.php');
           <?php
           if (!empty($_SESSION["admin"])) {
           ?>
-            <a href="addAdmin.php" class="text-white">
-              <h3>Add Admin</h3>
-            </a>
             <a href="showUsers.php" class="text-white">
               <h3>Users</h3>
             </a>

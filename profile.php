@@ -1,27 +1,26 @@
 <?php
 session_start();
-if (empty($_SESSION["logged"])) {
+if (empty($_SESSION["logged"]) && empty($_SESSION["admin"])) {
   header("location:unauthenticated.php");
 }
 require_once('navbar.php');
 require_once('User.php');
-require_once('navigatingArticlesStyle.php');
-$user = unserialize($_SESSION["logged"]);
+require_once('admin.php');
+?>
+<link rel="stylesheet" href="navigatingArticlesStyle.css">
+<?php
+if (!empty($_SESSION["logged"])) {
+  $user = unserialize($_SESSION["logged"]);
+} 
+else {
+  $user = unserialize($_SESSION["admin"]);
+}
 $articles = $user->showArticlesByUser($user->id);
 ?>
 
 <div class="container">
   <div class="row">
     <div>
-      <?php
-      if (!empty($_GET["msg"]) && $_GET["msg"] == "changed") {
-      ?>
-        <div class="alert alert-success" role="alert">
-          <strong>Password changed successfully</strong>
-        </div>
-      <?php
-      }
-      ?>
       <div class="btn-group">
         <a href="changePassword.php" class="btn btn-secondary">Change Password</a>
       </div>

@@ -1,9 +1,24 @@
 <?php
 session_start();
-if (empty($_SESSION["logged"])) {
+if (empty($_SESSION["logged"]) && empty($_SESSION["admin"])) {
     header("location:unauthenticated.php");
 }
 require_once('navbar.php');
+      if (!empty($_GET["msg"]) && $_GET["msg"] == "changed") {
+      ?>
+        <div class="alert alert-success" role="alert">
+          <strong>Password changed successfully</strong>
+        </div>
+      <?php
+      }
+      if (!empty($_GET["msg"]) && $_GET["msg"] == "wrongPass") {
+      ?>
+        <div class="alert alert-danger" role="alert">
+          <strong>Wrong Password</strong>
+        </div>
+      <?php
+      }
+      ?>
 ?>
 <body>
 <main class="form-signin w-100 m-auto">

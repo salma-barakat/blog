@@ -3,7 +3,9 @@ session_start();
 require_once('admin.php');
 require_once('headerStyles.php');
 require_once('navBar.php');
-require_once('navigatingArticlesStyle.php');
+?>
+<link rel="stylesheet" href="navigatingArticlesStyle.css">
+<?php
 if(empty($_SESSION["admin"])){
   header("location:unauthenticated.php");
 }

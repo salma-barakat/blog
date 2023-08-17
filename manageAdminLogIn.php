@@ -5,9 +5,10 @@ if(!empty($_POST["email"]) && !empty($_POST["password"])){
     $email = htmlspecialchars(trim($_POST["email"]));
     $password = $_POST["password"];
     $admin = Admin::logIn($email, md5($password));
+    var_dump($admin);
     if($admin != null){
         $_SESSION["admin"] = serialize($admin);
-        header("location:adminHome.php");
+        header("location:home.php");
     }
 }
 else{
