@@ -119,6 +119,11 @@ $posts = $user->showAllArticles();
                         <a href="manageDeleteArticle.php?id=<?= $article[0]?> " class="btn btn-outline-danger">Delete Article</a>
                         <?php
                         }
+                        else if($user->role == 'admin'){
+                        ?>
+                        <a href="manageDeleteArticle.php?id=<?= $article[0]?> " class="btn btn-outline-danger">Delete Article</a>
+                        <?php
+                        }
                         ?>
                       </div>
                     </div>

@@ -47,11 +47,11 @@ class User{
                 $user = new User($data["id"], $data["Fname"], $data["Lname"], $data["email"], $data["password"], $data["registeredAt"]);
             }
             else{
-                header("location:userLogIn.php?msg=wrongPass");
+                header("location:index.php?msg=wrongPass");
             }
         }
         else{
-            header("location:userLogIn.php?msg=NoEmailExist");
+            header("location:index.php?msg=NoEmailExist");
         }
         mysqli_close($connection);
         return $user;
@@ -68,7 +68,7 @@ class User{
         else{
             $query = "INSERT INTO users (Fname, Lname, email, password, registeredTime, role) VALUES('$Fname', '$Lname', '$email', '$password', now(), 'user')";
             $result = mysqli_query($connection, $query); 
-            header("location:userLogIn.php?msg=registered");
+            header("location:index.php?msg=registered");
         }
         mysqli_close($connection);
     }

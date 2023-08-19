@@ -22,11 +22,11 @@ class Admin extends User{
                 $user = new Admin($data["id"], $data["Fname"], $data["Lname"], $data["email"], $data["password"], $data["registeredAt"]);
             }
             else{
-                header("location:adminLogIn.php?msg=wrongPass");
+                header("location:index.php?msg=wrongPass");
             }
         }
         else{
-            header("location:adminLogIn.php?msg=NoEmailExist");
+            header("location:index.php?msg=NoEmailExist");
         }
         mysqli_close($connection);
         return $user;

@@ -63,7 +63,7 @@
        <label for="floatingPassword">Confirm Password</label>
      </div>
      <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
-     <p>Already have an account? <a href="userLogIn.php"> Sign In</a></p>
+     <p>Already have an account? <a href="index.php"> Sign In</a></p>
 
    </form>
  </main>
